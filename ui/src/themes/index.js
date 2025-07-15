@@ -10,6 +10,8 @@ import NordTheme from './nord'
 import GruvboxDarkTheme from './gruvboxDark'
 import CatppuccinMacchiatoTheme from './catppuccinMacchiato'
 import NuclearTheme from './nuclear'
+// import house from './house'
+import houseLight from './themes2'
 
 export default {
   // Classic default themes
@@ -22,6 +24,8 @@ export default {
   ExtraDarkTheme,
   GreenTheme,
   GruvboxDarkTheme,
+  // house,
+  houseLight,
   LigeraTheme,
   MonokaiTheme,
   NordTheme,
