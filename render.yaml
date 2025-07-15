@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: navidrome
+    env: docker
+    plan: free
+    branch: main  # or your custom branch
+    dockerfilePath: ./Dockerfile
+    disk:
+      name: navidrome-data
+      mountPath: /data
+      sizeGB: 1
