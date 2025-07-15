@@ -1,6 +1,10 @@
 #!/bin/bash
 
-echo "📥 Syncing music from Google Drive using rclone..."
+echo "🔐 Linking Render secret file to rclone config..."
+mkdir -p /root/.config/rclone
+ln -sf /etc/secrets/rclone.conf /root/.config/rclone/rclone.conf
+
+echo "📥 Syncing music from cloud with rclone..."
 rclone sync gdrive:Navidrome /music
 
 echo "🎵 Starting Navidrome..."
