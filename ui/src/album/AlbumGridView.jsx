@@ -95,6 +95,7 @@ const useCoverStyles = makeStyles({
     objectFit: 'contain',
     height: (props) => props.height,
     transition: 'opacity 0.3s ease-in-out',
+    borderRadius: 11,
   },
   coverLoading: {
     opacity: 0.5,
