@@ -125,8 +125,11 @@ LABEL maintainer="deluan@navidrome.org"
 LABEL org.opencontainers.image.source="https://github.com/navidrome/navidrome"
 
 # Install ffmpeg and mpv
-RUN apk add -U --no-cache ffmpeg mpv sqlite curl bash && \
-    curl https://rclone.org/install.sh | bash
+#RUN apk add -U --no-cache ffmpeg mpv sqlite curl bash && \
+#    curl https://rclone.org/install.sh | bash
+
+RUN apk add -U --no-cache ffmpeg sqlite curl bash && \
+    apk add --no-cache mpv || echo "⚠️ mpv not found, continuing anyway"
 
 # Create expected folders
 RUN mkdir -p /music /data
