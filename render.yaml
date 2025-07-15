@@ -3,9 +3,17 @@ services:
     name: navidrome
     env: docker
     plan: free
-    branch: main  # or your custom branch
+    region: oregon  # or any preferred region
+    branch: main     # change if your branch is not `main`
     dockerfilePath: ./Dockerfile
     disk:
       name: navidrome-data
       mountPath: /data
       sizeGB: 1
+    envVars:
+      - key: ND_MUSICFOLDER
+        value: /music
+      - key: ND_DATAFOLDER
+        value: /data
+      - key: ND_LOGLEVEL
+        value: info
