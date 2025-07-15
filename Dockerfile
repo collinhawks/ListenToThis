@@ -1,17 +1,5 @@
 FROM --platform=$BUILDPLATFORM ghcr.io/crazy-max/osxcross:14.5-debian AS osxcross
 
-# Add before final image step
-FROM alpine:3.19 AS rclone-sync
-
-RUN apk add --no-cache curl unzip bash
-RUN curl https://rclone.org/install.sh | bash
-
-COPY .rclone/rclone.conf /root/.config/rclone/rclone.conf
-
-# Sync music from Google Drive to /music
-RUN mkdir -p /music && \
-    rclone sync gdrive:Navidrome /music
-
 ########################################################################################################################
 ### Build xx (orignal image: tonistiigi/xx)
 FROM --platform=$BUILDPLATFORM public.ecr.aws/docker/library/alpine:3.19 AS xx-build
@@ -129,9 +117,6 @@ RUN xx-verify --static /out/navidrome*
 
 FROM scratch AS binary
 COPY --from=build /out /
-
-FROM public.ecr.aws/docker/library/alpine:3.19 AS final
-COPY --from=rclone-sync /music /music
 
 ########################################################################################################################
 ### Build Final Image
