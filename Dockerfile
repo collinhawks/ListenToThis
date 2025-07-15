@@ -1,4 +1,19 @@
 FROM --platform=$BUILDPLATFORM ghcr.io/crazy-max/osxcross:14.5-debian AS osxcross
+FROM alpine:3.19 AS final
+
+# Install rclone
+RUN apk add --no-cache bash curl && \
+    curl https://rclone.org/install.sh | bash
+
+# Create necessary folders
+RUN mkdir -p /music /data
+
+# Copy Navidrome binary (already built in previous stage)
+COPY --from=build /out/navidrome /app/navidrome
+
+# Copy startup script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ########################################################################################################################
 ### Build xx (orignal image: tonistiigi/xx)
@@ -141,5 +156,7 @@ RUN touch /.nddockerenv
 EXPOSE ${ND_PORT}
 WORKDIR /app
 
-ENTRYPOINT ["/app/navidrome"]
+#ENTRYPOINT ["/app/navidrome"]
+# Use entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
 
