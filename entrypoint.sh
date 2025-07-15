@@ -6,7 +6,7 @@ ln -sf /etc/secrets/rclone.conf /root/.config/rclone/rclone.conf
 
 echo "📥 Syncing music from cloud with rclone..."
 #rclone sync dropbox:Navidrome /music
-rclone sync msic:Navidrome /music
+rclone sync msic:Yeat6 /music
 
 echo "🎵 Starting Navidrome..."
 exec /app/navidrome
