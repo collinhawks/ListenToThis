@@ -1,19 +1,4 @@
 FROM --platform=$BUILDPLATFORM ghcr.io/crazy-max/osxcross:14.5-debian AS osxcross
-FROM alpine:3.19 AS final
-
-# Install rclone
-RUN apk add --no-cache bash curl && \
-    curl https://rclone.org/install.sh | bash
-
-# Create necessary folders
-RUN mkdir -p /music /data
-
-# Copy Navidrome binary (already built in previous stage)
-COPY --from=build /out/navidrome /app/navidrome
-
-# Copy startup script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
 ########################################################################################################################
 ### Build xx (orignal image: tonistiigi/xx)
@@ -140,12 +125,22 @@ LABEL maintainer="deluan@navidrome.org"
 LABEL org.opencontainers.image.source="https://github.com/navidrome/navidrome"
 
 # Install ffmpeg and mpv
-RUN apk add -U --no-cache ffmpeg mpv sqlite
+RUN apk add -U --no-cache ffmpeg mpv sqlite curl bash && \
+    curl https://rclone.org/install.sh | bash
+
+# Create expected folders
+RUN mkdir -p /music /data
 
 # Copy navidrome binary
-COPY --from=build /out/navidrome /app/
+COPY --from=build /out/navidrome /app/navidrome
 
+# Copy the entrypoint script (you create this next)
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Optional volume declarations (harmless)
 VOLUME ["/data", "/music"]
+
 ENV ND_MUSICFOLDER=/music
 ENV ND_DATAFOLDER=/data
 ENV ND_CONFIGFILE=/data/navidrome.toml
